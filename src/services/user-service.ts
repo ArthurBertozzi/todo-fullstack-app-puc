@@ -1,6 +1,4 @@
-import { prisma } from "@/lib/prisma";
-import { Prisma, PrismaClient } from "@prisma/client";
-import { DefaultArgs } from "@prisma/client/runtime/library";
+import { PrismaClient } from "@prisma/client";
 
 interface User {
   name: string;
@@ -10,9 +8,7 @@ interface User {
 
 export class UserService {
   db: PrismaClient;
-  constructor(
-    db: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>
-  ) {
+  constructor(db: PrismaClient) {
     this.db = db;
   }
 
