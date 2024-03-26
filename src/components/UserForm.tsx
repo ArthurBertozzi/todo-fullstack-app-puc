@@ -1,11 +1,22 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-const UserForm = ({ onSubmit, isSubmitting }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+interface UserFormProps {
+  onSubmit: (data: FormData) => void;
+  isSubmitting: boolean;
+}
 
-  const handleSubmit = (e) => {
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+}
+
+const UserForm: React.FC<UserFormProps> = ({ onSubmit, isSubmitting }) => {
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     onSubmit({

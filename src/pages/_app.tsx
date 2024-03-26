@@ -1,5 +1,3 @@
-// pages/_app.tsx
-
 import { AppProps } from "next/app";
 import { initializePrisma } from "../../prisma";
 import React from "react";
