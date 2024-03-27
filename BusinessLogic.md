@@ -25,3 +25,5 @@
   - Auth handling
 - Admin.js
   - Rbac handling for our admin role
+- Zod
+  - Field validations for services and front-end
