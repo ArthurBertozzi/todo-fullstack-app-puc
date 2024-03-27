@@ -67,4 +67,10 @@ export class TaskService {
       where: { userId },
     });
   }
+
+  async getTaskById(taskId: string) {
+    return await this.db.task.findUnique({
+      where: { id: taskId },
+    });
+  }
 }
