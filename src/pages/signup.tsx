@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import UserForm from "../../components/UserForm";
+import UserForm from "../components/User/UserForm";
 import axios, { AxiosError } from "axios";
 import Link from "next/link";
 

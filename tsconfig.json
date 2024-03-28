@@ -116,7 +116,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/components/UserForm.tsx"
+    "src/components/User/UserForm.tsx"
   ],
   "exclude": ["node_modules"]
 }
