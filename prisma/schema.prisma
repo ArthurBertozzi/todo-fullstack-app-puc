@@ -22,6 +22,7 @@ model User {
   updatedAt DateTime @updatedAt
   Task      Task[]
 
+
   @@map("users")
 }
 
@@ -56,3 +57,4 @@ enum TaskPriority {
   MEDIUM
   HIGH
 }
+
