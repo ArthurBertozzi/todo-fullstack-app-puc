@@ -44,12 +44,12 @@ export default NextAuth({
       },
     }),
   ],
-  callbacks: {
-    async signIn({ user }) {
-      console.log(user.id);
-      return true;
-    },
-  },
+  // callbacks: {
+  //   async signIn({ user }) {
+  //     console.log(user.id);
+  //     return true;
+  //   },
+  // },
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 dias
