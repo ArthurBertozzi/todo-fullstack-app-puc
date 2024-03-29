@@ -35,7 +35,7 @@ model Task {
   id          String          @id @default(uuid())
   title       String
   description String
-  status      TaskStatus   @default(NEW)
+  status      TaskStatus?   @default(NEW)
   priority    TaskPriority
   createdAt   DateTime     @default(now())
   dueDate     DateTime?
