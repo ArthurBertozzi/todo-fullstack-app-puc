@@ -1,55 +1,65 @@
-import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { signIn, useSession } from "next-auth/react";
 import Router from "next/router";
+import styles from "../styles/auth/auth-form.module.css";
+import Button from "@mui/joy/Button";
+import Input from "@mui/joy/Input";
+import { MdArrowRightAlt } from "react-icons/md";
+import { FormControl, FormLabel, Link } from "@mui/joy";
+import { authenticateApp } from "../utils/auth/authenticateApp";
+import { set } from "zod";
+import { CheckSession } from "../utils/auth/checkSession";
 
 export default function LoginPage() {
+  CheckSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [incorrectCredentials, setIncorrectCredentials] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await signIn("credentials", {
-      redirect: false, // Redirecionamento personalizado após o login
-      email,
-      password,
-    });
-
-    if (!result) {
-      console.error("Erro ao fazer login");
-      return;
-    }
-
-    if (result.error) {
-      console.error("Erro ao fazer login:", result.error);
-    } else {
-      console.log("Login bem-sucedido:", result);
-      // Redirecionar para a página inicial, por exemplo
-      Router.push("/loggedTest");
+    setIncorrectCredentials(false);
+    const authSuccess = await authenticateApp(email, password);
+    console.log(authSuccess);
+    if (!authSuccess) {
+      setIncorrectCredentials(true);
     }
   };
-
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <FormControl>
+          <FormLabel>Email:</FormLabel>
+          <Input
             type="email"
             value={email}
+            placeholder="johndoe@gmail.com"
             onChange={(e) => setEmail(e.target.value)}
           />
-        </div>
-        <div>
-          <label>Senha:</label>
-          <input
+        </FormControl>
+        <FormControl>
+          <FormLabel>Password:</FormLabel>
+          <Input
             type="password"
+            placeholder="********"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-        </div>
-        <button type="submit">Entrar</button>
+        </FormControl>
+        <Button
+          color="primary"
+          endDecorator={<MdArrowRightAlt />}
+          variant="solid"
+          type="submit"
+        >
+          Entrar
+        </Button>
+        {incorrectCredentials && (
+          <p style={{ color: "red" }}>Credenciais inválidas</p>
+        )}
       </form>
+      <Link href="/">Volte</Link>
     </div>
   );
 }

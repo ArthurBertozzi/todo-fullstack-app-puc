@@ -29,3 +29,12 @@
 15. Decide if we're going to implement Prisma Adapter on the project or no
     15.5 If so, the prisma models will need to be adapted
 16. Refactor the authorize function from [...nextAuth.ts]
+
+Pontos
+
+- Entender como nao renderizar uma pagina se ja estiver logado
+  (menos prioritario visto que nao é um comportamento comum)
+
+  - Hoje temos a funcao checkSession porém ela renderiza a pagina antes de dar um router push
+
+- Alterar a homepage para conter os 2 componentes/forms (login ou cadastre-se)

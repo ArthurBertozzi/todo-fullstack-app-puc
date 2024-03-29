@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Define a altura para preencher a tela inteira verticalmente */
+}
+
+.form {
+  width: 300px; /* Largura do formulário */
+  padding: 20px;
+  border: 1px solid #251111;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.form > * {
+  margin-bottom: 10px; /* Adiciona espaço na parte inferior de todos os filhos do formulário */
+}
+
+.form > *:last-child {
+  margin-bottom: 0; /* Remove o espaço inferior do último filho do formulário */
+}
+
+.form input {
+  width: 80%;
+  padding: 15px;
+}
+
+.form label {
+  font-weight: bold;
+  font-size: 0.95em;
+  margin-bottom: 5px;
+}
+
+.form button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.form button:hover {
+  background-color: #0056b3;
+}

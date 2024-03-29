@@ -8,8 +8,12 @@ const prisma = initializePrisma();
 const userService = new UserService(prisma);
 
 async function validateExistingUser(email: string) {
-  const existingUser = await userService.findByEmail(email);
-  return existingUser;
+  try {
+    const existingUser = await userService.findByEmail(email);
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 // Function to handle POST request

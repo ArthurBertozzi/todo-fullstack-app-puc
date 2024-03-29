@@ -27,3 +27,5 @@
   - Rbac handling for our admin role
 - Zod
   - Field validations for services and front-end
+- React-icons
+  - Icons to the front end

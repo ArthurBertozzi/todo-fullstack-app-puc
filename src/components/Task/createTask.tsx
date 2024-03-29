@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { TaskService } from "../../services/task.service";
-import { UserService } from "../../services/user.service";
 import { initializePrisma } from "../../../prisma";
 import { useSession } from "next-auth/react";
 import { TaskPriority, TaskStatus } from "@prisma/client";
