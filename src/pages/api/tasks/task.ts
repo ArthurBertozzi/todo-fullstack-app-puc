@@ -1,16 +1,35 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { TaskService } from "../../../services/task.service";
 import { initializePrisma } from "../../../../prisma";
+import { UserService } from "../../../services/user.service";
+import { TaskStatus } from "@prisma/client";
 
 // Initialize PrismaClient and TaskService
 const prisma = initializePrisma();
 const taskService = new TaskService(prisma);
+const userService = new UserService(prisma);
 
 // Function to handle POST request for creating a task
 async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const userId = req.query.userId as string; // Extract user ID from request query
-    const { title, description, status, priority, dueDate } = req.body;
+    console.log("---------------");
+    console.log(req.body);
+    console.log("---------------");
+
+    const email = req.body.email as string;
+    const user = await userService.findByEmail(email);
+
+    if (!user) {
+      res.status(404).json({ error: "User not found" });
+      return;
+    }
+
+    const userId = user.id;
+    let { title, description, status, priority, dueDate } = req.body;
+
+    if (!status) {
+      status = TaskStatus.NEW;
+    }
 
     const newTask = await taskService.createTask(userId, {
       title,
