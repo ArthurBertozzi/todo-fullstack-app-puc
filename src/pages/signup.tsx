@@ -23,15 +23,36 @@ const SignupPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [formValidationError, setFormValidationError] = useState<string>("");
+
+  const validationForm = () => {
+    if (!name || !email || !password) {
+      setFormValidationError("Por favor, preencha todos os campos");
+      return false;
+    }
+    if (password.length < 6) {
+      setFormValidationError("A senha deve ter no mínimo 6 caracteres");
+      return false;
+    }
+
+    return true;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setFormValidationError("");
 
     try {
       const headers = {
         "Content-Type": "application/json",
       };
+
+      const validationSuccess = validationForm();
+      if (!validationSuccess) {
+        setIsSubmitting(false);
+        return;
+      }
 
       const data = {
         name,
@@ -79,6 +100,7 @@ const SignupPage: React.FC = () => {
             value={name}
             placeholder="John Doe"
             onChange={(e) => setName(e.target.value)}
+            required
           />
         </FormControl>
         <FormControl>
@@ -88,6 +110,7 @@ const SignupPage: React.FC = () => {
             value={email}
             placeholder="johndoe@gmail.com"
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </FormControl>
         <FormControl>
@@ -97,6 +120,7 @@ const SignupPage: React.FC = () => {
             placeholder="********"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </FormControl>
         <Button
@@ -107,6 +131,9 @@ const SignupPage: React.FC = () => {
         >
           Entrar
         </Button>
+        {formValidationError && (
+          <p style={{ color: "red" }}>{formValidationError}</p>
+        )}
       </form>
       <Link href="/">Volte</Link>
     </div>

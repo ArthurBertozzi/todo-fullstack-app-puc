@@ -32,9 +32,4 @@
 
 Pontos
 
-- Entender como nao renderizar uma pagina se ja estiver logado
-  (menos prioritario visto que nao é um comportamento comum)
-
-  - Hoje temos a funcao checkSession porém ela renderiza a pagina antes de dar um router push
-
 - Alterar a homepage para conter os 2 componentes/forms (login ou cadastre-se)
