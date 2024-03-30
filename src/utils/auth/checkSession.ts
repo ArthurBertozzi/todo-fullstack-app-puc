@@ -1,10 +1,9 @@
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import Router from "next/router";
-import { useEffect } from "react";
 
 export const CheckSession = async () => {
-  const session = useSession();
-  if (session.data) {
+  const session = await getSession();
+  if (session) {
     Router.push("/loggedTest");
     return true;
   }

@@ -21,8 +21,11 @@ async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { name, email, password } = req.body;
 
-    if (await validateExistingUser(email)) {
-      return res.status(400).json({ error: "User already exists" });
+    const userExists = await validateExistingUser(email);
+    console.log(userExists);
+
+    if (userExists === true) {
+      return res.status(400).json({ message: "User already exists" });
     }
 
     const newUser = await userService.createUser({
