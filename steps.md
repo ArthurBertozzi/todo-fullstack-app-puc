@@ -33,5 +33,5 @@
 Pontos
 
 - Alterar a homepage para conter os 2 componentes/forms (login ou cadastre-se)
-- Componente de loading feito
+- Componente de loading feito (falta estilizar)
 - ajustar para avisar o frontend que o email ja existe
