@@ -9,15 +9,15 @@ export const authenticateApp = async (email: string, password: string) => {
   });
 
   if (!result) {
-    console.error("Erro ao fazer login");
+    // console.error("Erro ao fazer login");
     return false;
   }
 
   if (result.error) {
-    console.error("Erro ao fazer login:", result.error);
+    // console.error("Erro ao fazer login:", result.error);
     return false;
   } else {
-    console.log("Login bem-sucedido:", result);
+    // console.log("Login bem-sucedido:", result);
     Router.push("/loggedTest");
     return true;
   }

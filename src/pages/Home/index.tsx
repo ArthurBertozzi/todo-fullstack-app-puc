@@ -1,16 +1,41 @@
-import React from "react";
-import Link from "next/link";
+import React, { useState, useEffect } from "react";
+import { SignupForm } from "../../components/User/signupForm";
+import Loginform from "../../components/User/loginForm";
+import { CheckSession } from "../../utils/auth/checkSession";
+import { LoadingPage } from "../../components/Utils/LoadingPage";
+import styles from "../../styles/home/homepage.module.css"; // Importe os estilos CSS
 
-const HomePage: React.FC = () => {
+export default function HomePage() {
+  const [pageLoading, setPageLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const checkLogin = await CheckSession();
+        if (checkLogin === false) {
+          setPageLoading(false);
+        }
+      } catch (error) {
+        console.error("Error checking session:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
-    <div>
-      <h1>Welcome to My Website!</h1>
-      <p>This is the homepage of my website built with Next.js.</p>
-      <Link href="/signup">Cadastre-se</Link>
-      <br />
-      <Link href="/login">Entre</Link>
+    <div className={styles.container}>
+      {pageLoading ? (
+        <LoadingPage />
+      ) : (
+        <div className={styles.formsContainer}>
+          <div className={styles.form}>
+            <SignupForm />
+          </div>
+          <div className={styles.form}>
+            <Loginform />
+          </div>
+        </div>
+      )}
     </div>
   );
-};
-
-export default HomePage;
+}

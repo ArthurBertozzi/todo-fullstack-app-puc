@@ -22,7 +22,6 @@ async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
     const { name, email, password } = req.body;
 
     const userExists = await validateExistingUser(email);
-    console.log(userExists);
 
     if (userExists === true) {
       return res.status(400).json({ message: "User already exists" });
@@ -36,7 +35,6 @@ async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
 
     res.status(201).json(newUser);
   } catch (error) {
-    console.error("Error creating user:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }

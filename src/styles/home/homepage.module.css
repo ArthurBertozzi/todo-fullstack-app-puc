@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.formsContainer {
+  display: flex;
+  flex-wrap: wrap; /* Permite que os formulários sejam exibidos lado a lado ou em várias linhas */
+  justify-content: center;
+  gap: 3em; /* Espaço entre os formulários */
+  margin-top: 2em; /* Espaço entre o container de formulários e o container pai */
+}
+
+.form {
+  padding: 1em;
+  border-radius: 5px;
+  max-width: 300px; /* Largura máxima do formulário */
+  margin-bottom: 0; /* Espaço entre os formulários */
+  min-height: auto;
+}
+
+/* Oculta a barra de rolagem criada pelo overflow-y */
+.formsContainer::-webkit-scrollbar {
+  display: none;
+}

@@ -16,7 +16,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
 
   if (!session) {
     // Redirecionar para a página de login se o usuário não estiver autenticado
-    router.push("/login");
+    router.push("/");
     return null; // Retorne null para interromper a renderização
   }
 
