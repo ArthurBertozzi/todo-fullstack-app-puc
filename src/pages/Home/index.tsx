@@ -27,14 +27,17 @@ export default function HomePage() {
       {pageLoading ? (
         <LoadingPage />
       ) : (
-        <div className={styles.formsContainer}>
-          <div className={styles.form}>
-            <SignupForm />
+        <>
+          <h1 className={styles.title}>Task control app</h1>
+          <div className={styles.formsContainer}>
+            <div className={styles.form}>
+              <SignupForm />
+            </div>
+            <div className={styles.form}>
+              <Loginform />
+            </div>
           </div>
-          <div className={styles.form}>
-            <Loginform />
-          </div>
-        </div>
+        </>
       )}
     </div>
   );

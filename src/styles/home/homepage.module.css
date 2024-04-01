@@ -2,27 +2,34 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   height: 100vh;
+}
+
+.title {
+  text-align: center;
 }
 
 .formsContainer {
   display: flex;
-  flex-wrap: wrap; /* Permite que os formulários sejam exibidos lado a lado ou em várias linhas */
-  justify-content: center;
-  gap: 3em; /* Espaço entre os formulários */
-  margin-top: 2em; /* Espaço entre o container de formulários e o container pai */
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 2em;
+  margin-top: 5px; /* Espaçamento entre os formulários */
 }
 
 .form {
-  padding: 1em;
-  border-radius: 5px;
-  max-width: 300px; /* Largura máxima do formulário */
-  margin-bottom: 0; /* Espaço entre os formulários */
-  min-height: auto;
+  width: 45%; /* Largura dos formulários */
 }
 
-/* Oculta a barra de rolagem criada pelo overflow-y */
-.formsContainer::-webkit-scrollbar {
-  display: none;
+@media (max-width: 780px) {
+  .formsContainer {
+    flex-direction: column; /* Altera para coluna em telas menores */
+    align-items: center;
+  }
+
+  .form {
+    width: 100%; /* Largura total em telas menores */
+  }
 }

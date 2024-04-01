@@ -29,3 +29,4 @@
   - Field validations for services and front-end
 - React-icons
   - Icons to the front end
+- Drag n' drop lib -> framer-motion
