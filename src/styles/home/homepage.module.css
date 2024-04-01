@@ -33,3 +33,10 @@
     width: 100%; /* Largura total em telas menores */
   }
 }
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}

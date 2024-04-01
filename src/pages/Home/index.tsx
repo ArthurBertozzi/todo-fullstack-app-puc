@@ -23,7 +23,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <div className={pageLoading ? styles.loadingContainer : styles.container}>
       {pageLoading ? (
         <LoadingPage />
       ) : (

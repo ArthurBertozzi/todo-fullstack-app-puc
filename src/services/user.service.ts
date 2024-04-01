@@ -59,7 +59,7 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    return await this.db.user.findFirstOrThrow({
+    return await this.db.user.findUnique({
       where: { email: email },
     });
   }

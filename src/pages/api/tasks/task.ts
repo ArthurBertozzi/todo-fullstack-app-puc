@@ -3,6 +3,7 @@ import { TaskService } from "../../../services/task.service";
 import { initializePrisma } from "../../../../prisma";
 import { UserService } from "../../../services/user.service";
 import { TaskStatus } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 
 // Initialize PrismaClient and TaskService
 const prisma = initializePrisma();
@@ -81,6 +82,44 @@ async function handleDeleteRequest(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
+// Function to handle GET request for retrieving user tasks
+async function handleGetUserTasks(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    let email = req.query.email as string;
+
+    if (Array.isArray(email)) {
+      email = email[0];
+    }
+
+    console.log("---------------");
+    console.log(email);
+    console.log("---------------");
+
+    if (!email) {
+      res.status(400).json({ error: "Email is required" });
+      return;
+    }
+
+    const user = await userService.findByEmail(email);
+
+    if (!user) {
+      res.status(404).json({ error: "User not found" });
+      return;
+    }
+
+    console.log(user);
+
+    const tasks = await taskService.getUserTasks(user.id);
+
+    console.log(tasks);
+
+    res.status(200).json(tasks);
+  } catch (error) {
+    console.error("Error retrieving user tasks:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -88,6 +127,9 @@ export default async function handler(
   switch (req.method) {
     case "POST":
       await handlePostRequest(req, res);
+      break;
+    case "GET":
+      await handleGetUserTasks(req, res);
       break;
     case "PUT":
       await handlePutRequest(req, res);
