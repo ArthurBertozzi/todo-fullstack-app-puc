@@ -4,6 +4,11 @@ import { getSession, useSession } from "next-auth/react";
 import { decode } from "next-auth/jwt";
 import CreateTask from "../components/Task/createTask";
 import axios from "axios";
+import Card from "@mui/joy/Card";
+import Typography from "@mui/joy/Typography";
+import CardContent from "@mui/joy/CardContent";
+import Divider from "@mui/joy/Divider";
+import TaskCard from "../components/Task/taskCard";
 
 interface Task {
   id: string; // Defina o tipo da propriedade id conforme necessário
@@ -51,10 +56,11 @@ const LoggedTest = () => {
         <CreateTask />
         {tasks.map((task) => {
           return (
-            <div key={task.id}>
-              <h3>{task.title}</h3>
-              <p>{task.description}</p>
-            </div>
+            // <div key={task.id}>
+            //   <h3>{task.title}</h3>
+            //   <p>{task.description}</p>
+            // </div>
+            <TaskCard key={task.id} task={task} />
           );
         })}
       </AuthGuard>
