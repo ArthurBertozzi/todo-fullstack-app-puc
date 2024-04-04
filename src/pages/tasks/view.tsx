@@ -53,22 +53,13 @@ const TaskView = () => {
       <AuthGuard>
         <NavBar onTaskAdded={handleTaskAdded} />
         <div className={styles.content}>
-          {/* <p>{session?.data?.user?.email}</p> */}
-
           {tasks.length === 0 ? (
-            <>
-              <p>
-                Crie uma tarefa no botão Mais <AddCircleOutlineIcon /> na barra
-                superior.
-              </p>
-            </>
+            <p>
+              Crie uma tarefa no botão Mais <AddCircleOutlineIcon /> na barra
+              superior.
+            </p>
           ) : (
-            <>
-              {" "}
-              {tasks.map((task) => {
-                return <TaskCard key={task.id} task={task} />;
-              })}
-            </>
+            tasks.map((task) => <TaskCard key={task.id} task={task} />)
           )}
         </div>
       </AuthGuard>

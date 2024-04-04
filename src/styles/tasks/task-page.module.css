@@ -1,17 +1,23 @@
-/* .cardTest {
-  background-color: blue;
-} */
+/* task-page.module.css */
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 64px; /* Ajuste conforme necessário para a altura da barra de navegação */
+  padding: 16px; /* Adicionei um espaçamento interno à container */
+  padding-top: 100px;
 }
 
 .content {
-  width: 100%;
-  max-width: 800px; /* Defina a largura máxima do conteúdo conforme necessário */
-  padding: 16px;
-  box-sizing: border-box;
+  min-width: 300px;
+  margin: 0 auto; /* Centralizei o conteúdo na horizontal */
+  display: flex;
+  flex-wrap: wrap; /* Alterado para flex-wrap: wrap */
+  justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .content {
+    justify-content: center;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
 }
