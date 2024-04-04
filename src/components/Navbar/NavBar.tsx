@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import { Typography, Toolbar, IconButton } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
 import UserMenu from "./UserMenu";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CreateTaskModal from "../Task/CreateTaskModal";
-import styles from "../../styles/navbar/navbar.module.css";
+import ThemeIconButton from "./Icons/ThemeIconButton";
+import CreateTaskIconModal from "./Icons/CreateTaskIconModal";
+import UserProfileIcon from "./Icons/UserProfileIcon";
 
-const NavBar: React.FC = () => {
+const NavBar: React.FC<{ onTaskAdded: (newTask: any) => void }> = ({
+  onTaskAdded,
+}) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
 
@@ -38,29 +40,13 @@ const NavBar: React.FC = () => {
             Tasks control
           </Typography>
 
-          <IconButton
-            size="large"
-            aria-label="add task"
-            aria-haspopup="true"
-            onClick={handleOpenCreateTaskModal}
-            color="inherit"
-            className={styles.iconLarger}
-          >
-            <AddCircleOutlineIcon />
-          </IconButton>
+          <CreateTaskIconModal
+            handleOpenCreateTaskModal={handleOpenCreateTaskModal}
+          />
 
-          <IconButton
-            size="large"
-            edge="end"
-            aria-label="account of current user"
-            aria-controls="primary-search-account-menu"
-            aria-haspopup="true"
-            onClick={handleProfileMenuOpen}
-            color="inherit"
-            className={styles.iconLarger}
-          >
-            <AccountCircle />
-          </IconButton>
+          <ThemeIconButton />
+
+          <UserProfileIcon handleProfileMenuOpen={handleProfileMenuOpen} />
           <UserMenu
             anchorEl={anchorEl}
             isMenuOpen={isMenuOpen}
@@ -71,6 +57,7 @@ const NavBar: React.FC = () => {
       <CreateTaskModal
         open={isCreateTaskModalOpen}
         onClose={handleCloseCreateTaskModal}
+        onTaskAdded={onTaskAdded}
       />
     </Box>
   );

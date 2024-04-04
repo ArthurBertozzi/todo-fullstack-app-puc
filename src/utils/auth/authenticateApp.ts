@@ -18,7 +18,7 @@ export const authenticateApp = async (email: string, password: string) => {
     return false;
   } else {
     // console.log("Login bem-sucedido:", result);
-    Router.push("/loggedTest");
+    Router.push("/tasks/view");
     return true;
   }
 };

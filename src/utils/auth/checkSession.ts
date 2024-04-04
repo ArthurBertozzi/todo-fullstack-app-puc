@@ -4,7 +4,7 @@ import Router from "next/router";
 export const CheckSession = async () => {
   const session = await getSession();
   if (session) {
-    Router.push("/loggedTest");
+    Router.push("/tasks/view");
     return true;
   }
   return false;

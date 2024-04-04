@@ -12,6 +12,7 @@ import { getUserEmail } from "../../utils/auth/checkSession";
 interface CreateTaskModalProps {
   open: boolean;
   onClose: () => void;
+  onTaskAdded: (newTask: any) => void;
 }
 
 const initialTaskState = {
@@ -20,7 +21,11 @@ const initialTaskState = {
   priority: TaskPriority.LOW as TaskPriority,
 };
 
-const CreateTaskModal: React.FC<CreateTaskModalProps> = ({ open, onClose }) => {
+const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
+  open,
+  onClose,
+  onTaskAdded,
+}) => {
   const [taskTitle, setTaskTitle] = React.useState("");
   const [taskDescription, setTaskDescription] = React.useState("");
   const [priority, setPriority] = useState<TaskPriority>(
@@ -59,6 +64,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({ open, onClose }) => {
     try {
       const response = await axios.post("/api/tasks/task", data, { headers });
       console.log(response);
+      onTaskAdded(response.data);
     } catch (error: any) {
       console.error(error);
       console.log(error.response?.data.message);
