@@ -1,3 +1,17 @@
 /* .cardTest {
   background-color: blue;
 } */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 64px; /* Ajuste conforme necessário para a altura da barra de navegação */
+}
+
+.content {
+  width: 100%;
+  max-width: 800px; /* Defina a largura máxima do conteúdo conforme necessário */
+  padding: 16px;
+  box-sizing: border-box;
+}

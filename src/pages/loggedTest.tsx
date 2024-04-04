@@ -4,6 +4,9 @@ import { useSession } from "next-auth/react";
 import CreateTask from "../components/Task/createTask";
 import axios from "axios";
 import TaskCard from "../components/Task/taskCard";
+import NavBar from "../components/Navbar/NavBar";
+import styles from "../styles/tasks/task-page.module.css";
+import CreateTaskModal from "../components/Task/CreateTaskModal";
 
 interface Task {
   id: string; // Defina o tipo da propriedade id conforme necessário
@@ -44,14 +47,16 @@ const LoggedTest = () => {
   }, [userEmail]); // O array vazio como segundo argumento garante que o useEffect será executado apenas uma vez, ao montar o componente
 
   return (
-    <div>
+    <div className={styles.container}>
       <AuthGuard>
-        loggedTest
-        <p>{session?.data?.user?.email}</p>
-        <CreateTask />
-        {tasks.map((task) => {
-          return <TaskCard key={task.id} task={task} />;
-        })}
+        <NavBar />
+        <div className={styles.content}>
+          <p>{session?.data?.user?.email}</p>
+
+          {tasks.map((task) => {
+            return <TaskCard key={task.id} task={task} />;
+          })}
+        </div>
       </AuthGuard>
     </div>
   );

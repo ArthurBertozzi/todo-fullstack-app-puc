@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import React, { ReactNode } from "react";
+import { LoadingPage } from "../Utils/LoadingPage";
 
 interface AuthGuardProps {
   children: ReactNode;
@@ -11,7 +12,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   const router = useRouter();
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <LoadingPage />;
   }
 
   if (!session) {
