@@ -6,6 +6,8 @@ import { Button } from "@mui/joy";
 import styles from "../../styles/modal/create-task-modal.module.css";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { TaskPriority, TaskStatus } from "@prisma/client";
+import axios from "axios";
+import { getUserEmail } from "../../utils/auth/checkSession";
 
 interface CreateTaskModalProps {
   open: boolean;
@@ -37,9 +39,31 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({ open, onClose }) => {
     setPriority(event.target.value as any);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const userEmail = await getUserEmail();
     // Lógica para lidar com o envio do formulário
     // Por exemplo, enviar os dados para o servidor
+    const data = {
+      title: taskTitle,
+      description: taskDescription,
+      priority: priority,
+      email: userEmail,
+    };
+
+    console.log(data);
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    try {
+      const response = await axios.post("/api/tasks/task", data, { headers });
+      console.log(response);
+    } catch (error: any) {
+      console.error(error);
+      console.log(error.response?.data.message);
+    }
+
     console.log("Enviando a task", taskTitle, taskDescription, priority);
     onClose(); // Fecha o modal após o envio do formulário
   };

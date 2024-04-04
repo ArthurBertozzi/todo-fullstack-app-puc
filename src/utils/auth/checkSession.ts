@@ -9,3 +9,11 @@ export const CheckSession = async () => {
   }
   return false;
 };
+
+export const getUserEmail = async () => {
+  const session = await getSession();
+  if (session) {
+    return session.user?.email;
+  }
+  return null;
+};
