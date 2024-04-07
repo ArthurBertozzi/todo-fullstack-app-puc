@@ -7,6 +7,7 @@ import CreateTaskModal from "../Task/CreateTaskModal";
 import ThemeIconButton from "./Icons/ThemeIconButton";
 import CreateTaskIconModal from "./Icons/CreateTaskIconModal";
 import UserProfileIcon from "./Icons/UserProfileIcon";
+import ProfileModal from "../User/ProfileModal";
 
 const NavBar: React.FC<{ onTaskAdded: (newTask: any) => void }> = ({
   onTaskAdded,

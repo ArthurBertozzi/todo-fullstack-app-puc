@@ -10,7 +10,9 @@
   margin: 0 auto; /* Centralizei o conteúdo na horizontal */
   display: flex;
   flex-wrap: wrap; /* Alterado para flex-wrap: wrap */
-  justify-content: space-between;
+
+  gap: 32px;
+  justify-content: start;
 }
 
 @media (max-width: 768px) {

@@ -17,3 +17,11 @@ export const getUserEmail = async () => {
   }
   return null;
 };
+
+export const getUser = async () => {
+  const session = await getSession();
+  if (session) {
+    return session.user;
+  }
+  return null;
+};

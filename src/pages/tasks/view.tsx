@@ -7,11 +7,18 @@ import NavBar from "../../components/Navbar/NavBar";
 import styles from "../../styles/tasks/task-page.module.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { fetchData } from "next-auth/client/_utils";
+import { TaskPriority, TaskStatus } from "@prisma/client";
 
 interface Task {
   id: string;
   title: string;
   description: string;
+  status?: TaskStatus;
+  priority: TaskPriority;
+  createdAt: Date;
+  dueDate?: Date;
+  completedAt?: Date;
+  userId: string;
 }
 
 const TaskView = () => {
