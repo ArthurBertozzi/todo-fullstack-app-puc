@@ -29,10 +29,12 @@ async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
     let { title, description, status, priority, dueDate } = req.body;
 
     // Convertendo a string dueDate em uma data
-    const [day, month, year] = dueDate.split("/");
-    const formattedDate = `${year}-${month}-${day}`;
-    dueDate = new Date(formattedDate);
-    console.log(dueDate);
+    if (dueDate !== "") {
+      const [day, month, year] = dueDate.split("/");
+      const formattedDate = `${year}-${month}-${day}`;
+      dueDate = new Date(formattedDate);
+      console.log(dueDate);
+    }
 
     if (!status) {
       status = TaskStatus.NEW;
@@ -43,7 +45,7 @@ async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
       description,
       status,
       priority,
-      dueDate,
+      ...(dueDate ? { dueDate } : {}),
     });
 
     res.status(201).json(newTask);
@@ -57,14 +59,23 @@ async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
 async function handlePutRequest(req: NextApiRequest, res: NextApiResponse) {
   try {
     // const taskId = req.query.id as string; // Extract task ID from request query
-    const { id, title, description, status, priority, dueDate } = req.body;
+    let { id, title, description, status, priority, dueDate } = req.body;
+
+    console.log(req.body);
+
+    if (dueDate !== "") {
+      dueDate = new Date(dueDate);
+      console.log(dueDate);
+    }
+
+    console.log(dueDate);
 
     const updatedTask = await taskService.updateTask(id, {
       title,
       description,
       status,
       priority,
-      dueDate,
+      ...(dueDate ? { dueDate } : {}),
     });
 
     res.status(200).json(updatedTask);

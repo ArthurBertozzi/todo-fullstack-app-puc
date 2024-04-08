@@ -8,14 +8,16 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { TaskPriority, TaskStatus } from "@prisma/client";
 import axios from "axios";
 import { getUserEmail } from "../../utils/auth/checkSession";
+import { format } from "date-fns";
 
 interface Task {
   id: string;
   title: string;
   description: string;
+  status?: TaskStatus;
   priority: TaskPriority;
   createdAt: Date;
-  dueDate?: Date;
+  dueDate?: Date | null;
   completedAt?: Date;
   userId: string;
 }
@@ -34,17 +36,31 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
   const [taskTitle, setTaskTitle] = useState(task.title);
   const [taskDescription, setTaskDescription] = useState(task.description);
   const [priority, setPriority] = useState<TaskPriority>(task.priority);
+  const [dueDate, setDueDate] = useState<string | null>(
+    task.dueDate ? format(new Date(task.dueDate), "dd/MM/yyyy") : null
+  );
+  const [status, setStatus] = useState<TaskStatus>(
+    task.status ? task.status : TaskStatus.NEW
+  );
 
   useEffect(() => {
     if (open) {
       setTaskTitle(task.title);
       setTaskDescription(task.description);
       setPriority(task.priority);
+      setDueDate(
+        task.dueDate ? format(new Date(task.dueDate), "dd/MM/yyyy") : null
+      ); // Adjusted formatting
+      setStatus(task.status ? task.status : TaskStatus.NEW);
     }
   }, [open, task]);
 
   const handlePriorityChange = (event: SelectChangeEvent) => {
     setPriority(event.target.value as any);
+  };
+
+  const handleStatusChange = (event: SelectChangeEvent) => {
+    setStatus(event.target.value as any);
   };
 
   const handleSubmit = async () => {
@@ -54,7 +70,11 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
       title: taskTitle,
       description: taskDescription,
       priority: priority,
+      dueDate: dueDate
+        ? new Date(dueDate.split("/").reverse().join("-"))
+        : null, // Adjusted date format for backend
       email: userEmail,
+      status: status,
     };
 
     console.log(data);
@@ -109,6 +129,30 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
           <MenuItem value={TaskPriority.MEDIUM}>Média</MenuItem>
           <MenuItem value={TaskPriority.HIGH}>Alta</MenuItem>
         </Select>
+        <br />
+        <InputLabel id="task-status">Prioridade</InputLabel>
+        <Select
+          labelId="task-status"
+          id="taskStatus"
+          value={status}
+          label="Age"
+          onChange={handleStatusChange}
+        >
+          <MenuItem value={TaskStatus.NEW}>Nova</MenuItem>
+          <MenuItem value={TaskStatus.IN_PROGRESS}>Em progresso</MenuItem>
+          <MenuItem value={TaskStatus.COMPLETED}>Finalizada</MenuItem>
+        </Select>
+        <br />
+        <InputLabel id="task-due-date">Due Date</InputLabel>
+        <TextField
+          id="dueDate"
+          type="text"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
         <br />
         <br />
         <Button onClick={handleSubmit}>Salvar Alterações</Button>

@@ -6,7 +6,6 @@ import TaskCard from "../../components/Task/taskCard";
 import NavBar from "../../components/Navbar/NavBar";
 import styles from "../../styles/tasks/task-page.module.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { fetchData } from "next-auth/client/_utils";
 import { TaskPriority, TaskStatus } from "@prisma/client";
 
 interface Task {
@@ -16,7 +15,7 @@ interface Task {
   status?: TaskStatus;
   priority: TaskPriority;
   createdAt: Date;
-  dueDate?: Date;
+  dueDate?: Date | null;
   completedAt?: Date;
   userId: string;
 }
@@ -24,6 +23,9 @@ interface Task {
 const TaskView = () => {
   const session = useSession();
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [sortByDateAsc, setSortByDateAsc] = useState<boolean>(true);
 
   const userEmail = session.data?.user?.email;
 
@@ -37,6 +39,10 @@ const TaskView = () => {
     setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
+  const handleTaskDeleted = (taskId: string) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setTasks([]);
@@ -48,6 +54,7 @@ const TaskView = () => {
         const response = await axios.get(`/api/tasks/task?email=${userEmail}`);
 
         setTasks(response.data);
+        setFilteredTasks(response.data);
       } catch (error: any) {
         console.log(error);
         console.log(error.response.data);
@@ -57,22 +64,54 @@ const TaskView = () => {
     fetchData();
   }, [userEmail]);
 
+  useEffect(() => {
+    // Filter tasks based on search term
+    setFilteredTasks(
+      tasks.filter((task) =>
+        task.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [tasks, searchTerm]);
+
+  const handleSortByDate = () => {
+    setSortByDateAsc((prev) => !prev);
+    setFilteredTasks((prevTasks) =>
+      prevTasks.slice().sort((a, b) => {
+        const dateA = new Date(a.createdAt).getTime();
+        const dateB = new Date(b.createdAt).getTime();
+        return sortByDateAsc ? dateA - dateB : dateB - dateA;
+      })
+    );
+  };
+
   return (
     <div className={styles.container}>
       <AuthGuard>
         <NavBar onTaskAdded={handleTaskAdded} />
+        <div className={styles.filterContainer}>
+          <input
+            type="text"
+            placeholder="Pesquisar por título..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button onClick={handleSortByDate}>
+            {sortByDateAsc ? "Mais antigos primeiro" : "Mais recentes primeiro"}
+          </button>
+        </div>
         <div className={styles.content}>
-          {tasks.length === 0 ? (
+          {filteredTasks.length === 0 ? (
             <p>
               Crie uma tarefa no botão Mais <AddCircleOutlineIcon /> na barra
               superior.
             </p>
           ) : (
-            tasks.map((task) => (
+            filteredTasks.map((task) => (
               <TaskCard
                 key={task.id}
                 task={task}
                 handleTaskUpdated={handleTaskUpdated}
+                handleTaskDeleted={handleTaskDeleted}
               />
             ))
           )}

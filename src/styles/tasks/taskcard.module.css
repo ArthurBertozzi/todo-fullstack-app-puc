@@ -18,6 +18,12 @@
   align-items: center;
 }
 
+.auxliaryIcons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .title {
   font-size: 1.25rem;
   font-weight: 500;

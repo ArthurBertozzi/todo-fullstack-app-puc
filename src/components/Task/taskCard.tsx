@@ -8,7 +8,8 @@ import styles from "../../styles/tasks/taskcard.module.css";
 import { TaskPriority, TaskStatus } from "@prisma/client";
 import { format } from "date-fns";
 import EditTaskIcon from "./Icons/EditTaskIcon";
-import EditTaskModal from "./EditTaskModal"; // Adicione a importação do modal de edição
+import DeleteTaskIcon from "./Icons/DeleteTaskIcon";
+import EditTaskModal from "./EditTaskModal";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 
@@ -19,17 +20,22 @@ interface Task {
   status?: TaskStatus;
   priority: TaskPriority;
   createdAt: Date;
-  dueDate?: Date;
+  dueDate?: Date | null;
   completedAt?: Date;
   userId: string;
 }
 
 interface TaskCardProps {
   task: Task;
-  handleTaskUpdated: (updatedTask: Task) => void; // Adiciona a propriedade para atualizar a tarefa
+  handleTaskUpdated: (updatedTask: Task) => void;
+  handleTaskDeleted: (taskId: string) => void;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, handleTaskUpdated }) => {
+const TaskCard: React.FC<TaskCardProps> = ({
+  task,
+  handleTaskUpdated,
+  handleTaskDeleted,
+}) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [updatedTask, setUpdatedTask] = useState<Task | null>(null);
 
@@ -43,6 +49,10 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, handleTaskUpdated }) => {
       setUpdatedTask(updatedTask);
       handleTaskUpdated(updatedTask);
     }
+  };
+
+  const handleDeleteTask = () => {
+    handleTaskDeleted(task.id);
   };
 
   const formattedDueDate = task.dueDate
@@ -64,7 +74,10 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, handleTaskUpdated }) => {
             <Typography className={styles.title} level="title-md">
               {task.title}
             </Typography>
-            <EditTaskIcon onClick={handleEditModalOpen} />
+            <div className={styles.auxliaryIcons}>
+              <EditTaskIcon onClick={handleEditModalOpen} />
+              <DeleteTaskIcon onClick={handleDeleteTask} />
+            </div>
           </div>
           <div>
             <Typography className={styles.description} level="title-md">
