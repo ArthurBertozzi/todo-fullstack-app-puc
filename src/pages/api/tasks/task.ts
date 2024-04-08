@@ -88,7 +88,7 @@ async function handlePutRequest(req: NextApiRequest, res: NextApiResponse) {
 // Function to handle DELETE request for deleting a task
 async function handleDeleteRequest(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const taskId = req.query.id as string; // Extract task ID from request query
+    const { taskId } = req.body; // Extract task ID from request query
 
     await taskService.deleteTask(taskId);
 

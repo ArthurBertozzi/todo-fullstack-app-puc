@@ -41,6 +41,10 @@ const TaskView = () => {
 
   const handleTaskDeleted = (taskId: string) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+    const data = {
+      taskId: taskId,
+    };
+    axios.delete(`/api/tasks/task`, { data: data });
   };
 
   useEffect(() => {
