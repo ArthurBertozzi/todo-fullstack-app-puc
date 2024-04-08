@@ -109,7 +109,8 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
           <MenuItem value={TaskPriority.MEDIUM}>Média</MenuItem>
           <MenuItem value={TaskPriority.HIGH}>Alta</MenuItem>
         </Select>
-        <br /> <br />
+        <br />
+        <br />
         <Button onClick={handleSubmit}>Salvar Alterações</Button>
         {/* Altera o texto do botão */}
       </Box>

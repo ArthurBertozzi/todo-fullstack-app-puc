@@ -8,6 +8,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { TaskPriority, TaskStatus } from "@prisma/client";
 import axios from "axios";
 import { getUserEmail } from "../../utils/auth/checkSession";
+import { add, isAfter, format } from "date-fns";
 
 interface CreateTaskModalProps {
   open: boolean;
@@ -19,6 +20,7 @@ const initialTaskState = {
   taskTitle: "",
   taskDescription: "",
   priority: TaskPriority.LOW as TaskPriority,
+  dueDate: "",
 };
 
 const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
@@ -26,10 +28,13 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   onClose,
   onTaskAdded,
 }) => {
-  const [taskTitle, setTaskTitle] = React.useState("");
-  const [taskDescription, setTaskDescription] = React.useState("");
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
   const [priority, setPriority] = useState<TaskPriority>(
     TaskPriority.LOW as TaskPriority
+  );
+  const [dueDate, setDueDate] = useState<string>(
+    "" // Define o valor inicial formatado como a data atual mais 24 horas
   );
 
   useEffect(() => {
@@ -37,6 +42,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
       setTaskTitle(initialTaskState.taskTitle);
       setTaskDescription(initialTaskState.taskDescription);
       setPriority(initialTaskState.priority);
+      setDueDate(initialTaskState.dueDate);
     }
   }, [open]);
 
@@ -46,12 +52,12 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
 
   const handleSubmit = async () => {
     const userEmail = await getUserEmail();
-    // Lógica para lidar com o envio do formulário
-    // Por exemplo, enviar os dados para o servidor
+
     const data = {
       title: taskTitle,
       description: taskDescription,
       priority: priority,
+      dueDate: dueDate,
       email: userEmail,
     };
 
@@ -108,6 +114,20 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
           <MenuItem value={TaskPriority.MEDIUM}>Média</MenuItem>
           <MenuItem value={TaskPriority.HIGH}>Alta</MenuItem>
         </Select>
+        <br /> <br />
+        <InputLabel id="task-due-date">Due Date</InputLabel>
+        <TextField
+          id="dueDate"
+          type="text"
+          value={dueDate} // Utiliza a string formatada diretamente
+          placeholder="01/04/2024 - dd/mm/yyyy"
+          onChange={(e) => {
+            setDueDate(e.target.value);
+          }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
         <br /> <br />
         <Button onClick={handleSubmit}>Enviar</Button>
       </Box>

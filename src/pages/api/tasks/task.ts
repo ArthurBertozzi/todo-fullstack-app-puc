@@ -28,6 +28,12 @@ async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
     const userId = user.id;
     let { title, description, status, priority, dueDate } = req.body;
 
+    // Convertendo a string dueDate em uma data
+    const [day, month, year] = dueDate.split("/");
+    const formattedDate = `${year}-${month}-${day}`;
+    dueDate = new Date(formattedDate);
+    console.log(dueDate);
+
     if (!status) {
       status = TaskStatus.NEW;
     }
