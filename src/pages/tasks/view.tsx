@@ -25,11 +25,17 @@ const TaskView = () => {
   const session = useSession();
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  console.log(session);
-
   const userEmail = session.data?.user?.email;
 
-  console.log(userEmail);
+  const handleTaskUpdated = (updatedTask: Task) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
+    );
+  };
+
+  const handleTaskAdded = (newTask: Task) => {
+    setTasks((prevTasks) => [...prevTasks, newTask]);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,10 +57,6 @@ const TaskView = () => {
     fetchData();
   }, [userEmail]);
 
-  const handleTaskAdded = (newTask: Task) => {
-    setTasks((prevTasks) => [...prevTasks, newTask]);
-  };
-
   return (
     <div className={styles.container}>
       <AuthGuard>
@@ -66,7 +68,13 @@ const TaskView = () => {
               superior.
             </p>
           ) : (
-            tasks.map((task) => <TaskCard key={task.id} task={task} />)
+            tasks.map((task) => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                handleTaskUpdated={handleTaskUpdated}
+              />
+            ))
           )}
         </div>
       </AuthGuard>

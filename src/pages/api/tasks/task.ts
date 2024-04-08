@@ -50,10 +50,10 @@ async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
 // Function to handle PUT request for updating a task
 async function handlePutRequest(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const taskId = req.query.id as string; // Extract task ID from request query
-    const { title, description, status, priority, dueDate } = req.body;
+    // const taskId = req.query.id as string; // Extract task ID from request query
+    const { id, title, description, status, priority, dueDate } = req.body;
 
-    const updatedTask = await taskService.updateTask(taskId, {
+    const updatedTask = await taskService.updateTask(id, {
       title,
       description,
       status,
@@ -91,10 +91,6 @@ async function handleGetUserTasks(req: NextApiRequest, res: NextApiResponse) {
       email = email[0];
     }
 
-    console.log("---------------");
-    console.log(email);
-    console.log("---------------");
-
     if (!email) {
       res.status(400).json({ error: "Email is required" });
       return;
@@ -107,11 +103,7 @@ async function handleGetUserTasks(req: NextApiRequest, res: NextApiResponse) {
       return;
     }
 
-    console.log(user);
-
     const tasks = await taskService.getUserTasks(user.id);
-
-    console.log(tasks);
 
     res.status(200).json(tasks);
   } catch (error) {
