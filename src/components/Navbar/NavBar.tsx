@@ -38,7 +38,7 @@ const NavBar: React.FC<{ onTaskAdded: (newTask: any) => void }> = ({
       <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Tasks control
+            TodoApp
           </Typography>
 
           <CreateTaskIconModal

@@ -28,7 +28,7 @@ export default function HomePage() {
         <LoadingPage />
       ) : (
         <>
-          <h1 className={styles.title}>Task control app</h1>
+          <h1 className={styles.title}>TodoApp</h1>
           <div className={styles.formsContainer}>
             <div className={styles.form}>
               <SignupForm />
