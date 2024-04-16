@@ -1,5 +1,6 @@
 import { Button } from "@mui/joy";
 import styles from "../../styles/loading/loading.module.css";
+import React from "react";
 
 export const LoadingPage: React.FC = () => {
   return (
